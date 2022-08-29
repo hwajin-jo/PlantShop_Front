@@ -1,11 +1,15 @@
 <template>
+   <div>
+    <side-menu></side-menu>
   <div class="container">
     <header class="jumbotron">
       <h3>{{content}}</h3>
     </header>
   </div>
+</div>
 </template>
 <script>
+  import sidemenuCustomer from './sidemenu_customer.vue';
 import UserService from '../services/user.service';
 export default {
   name: 'BoardUser',
@@ -13,6 +17,9 @@ export default {
     return {
       content: ''
     };
+  },
+  components: {
+    'side-menu': sidemenuCustomer
   },
   mounted() {
     UserService.getUserBoard().then(
