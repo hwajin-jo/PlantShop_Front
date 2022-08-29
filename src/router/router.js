@@ -3,6 +3,9 @@ import Router from 'vue-router';
 import HomeView from '../views/HomeView.vue';
 import LoginView from '../views/LoginView.vue';
 import RegisterView from '../views/RegisterView.vue';
+import noticeCustomer from '../views/notice_customer.vue';
+import sidemenuAdmin from '../views/sidemenu_admin.vue';
+import sidemenuCustomer from '../views/sidemenu_customer.vue';
 
 Vue.use(Router);
 export const router = new Router({
@@ -42,6 +45,21 @@ export const router = new Router({
       name: 'user',
       // lazy-loaded
       component: () => import('../views/BoardUser.vue')
-    }
+    },
+    {
+      path: '/notice',
+      name: 'notice-list',
+      component: noticeCustomer
+    },
+    {
+      path: '/sidemenu_admin',
+      name: 'sidemenu_admin',
+      component: sidemenuAdmin
+    },
+    {
+      path: '/sidemenu_customer',
+      name: 'sidemenu_customer',
+      component: sidemenuCustomer
+    },
   ]
 });
