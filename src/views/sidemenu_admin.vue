@@ -1,0 +1,69 @@
+<template>
+
+<div>
+        <div id="side_list">
+            <ul>
+                <router-link v-for="list in lists" :key="list.key" :to="list.link" tag="li" class-active="active"
+                >{{list.title}}</router-link>
+            </ul>
+        </div>
+</div>
+  
+</template>
+    <script>
+    
+    export default {
+     data () {
+     return{
+    
+      lists: [
+        {link: '/1', title: "상품관리"},
+        {link: '/2', title: "주문관리"},
+        {link: '/3', title: "회원관리"},
+        {link: '/admin/notice', title: "공지사항관리"},
+        {link: '/4', title: "배너관리"},
+        {link: '/5', title: "문의사항관리"},
+        {link: '/6', title: "매출관리"},
+      ]
+     }
+     },
+    
+    methods:{
+     
+     }
+    }
+    </script>
+    <style scoped>
+    #side_list{
+        margin-top: 50px;
+        margin-left: -320px;
+        
+    }
+    #side_list ul {
+    
+    list-style : none;
+    background-color: rgb(22, 160, 133);
+    width: 150px;
+    padding: 0;
+    margin: 0;
+    position: fixed;
+    height: 260px;
+    overflow: auto;
+
+}
+
+#side_list ul li {
+    text-decoration: none;
+    display: block;
+    color: white;
+    padding: 8px 15px 8px 15px;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.router-link-active {
+    background-color: rgb(241, 196, 15);
+    color: white;
+}
+    </style>
