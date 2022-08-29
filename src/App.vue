@@ -1,28 +1,111 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <nav class="navbar navbar-expand navbar-dark" style="background-color: rgb(224, 224, 224); ">
+      &nbsp; &nbsp; 
+      <a href class="navbar-brand" style="color: rgb(64,64,64)" @click.prevent>trefle</a>
+      <div class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <router-link to="/home" style="color: rgb(64,64,64)" class="nav-link">
+            Home
+          </router-link>
+        </li>
+        <li class="nav-item">
+          <router-link to="/about" style="color: rgb(64,64,64)" class="nav-link">
+            About
+          </router-link>
+        </li>
+        <li class="nav-item">
+          <router-link to="/potplant" style="color: rgb(64,64,64)" class="nav-link">
+            화분식물
+          </router-link>
+        </li>
+        <li class="nav-item">
+          <router-link to="/airplant" style="color: rgb(64,64,64)" class="nav-link">
+            공중식물
+          </router-link>
+        </li>
+        <li class="nav-item">
+          <router-link to="/succulentplant" style="color: rgb(64,64,64)" class="nav-link">
+            댜육식물
+          </router-link>
+        </li>
+        <li class="nav-item">
+          <router-link to="/others" style="color: rgb(64,64,64); margin-right: 600px;" class="nav-link">
+            기타상품
+          </router-link>
+        </li>
+        <li class="nav-item">
+          <router-link to="/notice" style="color: rgb(64,64,64)" class="nav-link">
+            공지사항
+          </router-link>
+        </li>
+        <li class="nav-item">
+          <router-link to="/chatbot" style="color: rgb(64,64,64)" class="nav-link">
+            챗봇상담
+          </router-link>
+        </li>
+        <li v-if="showAdminBoard" class="nav-item">
+          <router-link to="/admin" class="nav-link" style="color: rgb(64,64,64)">관리자페이지</router-link>
+        </li>
+        <li class="nav-item">
+          <router-link v-if="showUserBoard" to="/user" class="nav-link" style="color: rgb(64,64,64)">마이페이지</router-link>
+        </li>
+      </div>
+      <div v-if="!currentUser" class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <router-link to="/register" style="color: rgb(64,64,64)" class="nav-link">
+            회원가입
+          </router-link>
+        </li>
+        <li class="nav-item">
+          <router-link to="/login" style="color: rgb(64,64,64)" class="nav-link">
+            로그인
+          </router-link>
+        </li>
+      </div>
+      <div v-if="currentUser" class="navbar-nav ml-auto">
+        <!-- <li class="nav-item">
+          <router-link to="/profile" class="nav-link">
+            <font-awesome-icon icon="user" />
+            {{ currentUser.username }}
+          </router-link>
+        </li> -->
+        <li class="nav-item">
+          <a class="nav-link" style="color: rgb(64,64,64)" href @click.prevent="logOut">
+            로그아웃
+          </a>
+        </li>
+      </div>
+    </nav>
+    <div class="container">
+      <router-view />
+    </div>
   </div>
 </template>
-
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
+  computed: {
+    currentUser() {
+      return this.$store.state.auth.user;
+    },
+    showAdminBoard() {
+      if (this.currentUser && this.currentUser.roles) {
+        return this.currentUser.roles.includes('ROLE_ADMIN');
+      }
+      return false;
+    },
+    showUserBoard() {
+      if (this.currentUser && this.currentUser.roles) {
+        return this.currentUser.roles.includes('ROLE_USER');
+      }
+      return false;
+    }
+  },
+  methods: {
+    logOut() {
+      this.$store.dispatch('auth/logout');
+      this.$router.push('/login');
+    }
   }
-}
+};
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
