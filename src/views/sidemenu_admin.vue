@@ -17,7 +17,8 @@
      return{
     
       lists: [
-        {link: '/1', title: "상품관리"},
+        {link : '/admin/addProduct', title: "상품등록"},
+        {link: '/admin/ProductManage', title: "상품관리"},
         {link: '/2', title: "주문관리"},
         {link: '/3', title: "회원관리"},
         {link: '/admin/notice', title: "공지사항관리"},
@@ -35,9 +36,7 @@
     </script>
     <style scoped>
     #side_list{
-        margin-top: 50px;
-        margin-left: -320px;
-        
+        margin-top: 50px;   
     }
     #side_list ul {
     
@@ -47,7 +46,7 @@
     padding: 0;
     margin: 0;
     position: fixed;
-    height: 260px;
+    height: 300px;
     overflow: auto;
 
 }
