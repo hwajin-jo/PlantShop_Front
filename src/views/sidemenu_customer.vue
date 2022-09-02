@@ -43,7 +43,6 @@
     margin: 0;
     position: fixed;
     overflow: auto;
-    margin-left: -320px;
     text-align: center;
 }
 
