@@ -4,7 +4,7 @@
       <div id="product-add">
             <h3><strong>상품 등록</strong></h3>
             <hr>
-            <form>
+            <form enctype="multipart/form-data">
                 <p>
                     <input type="text" required v-model="product.pname" id="pname" class="form-control w-50" placeholder="상품명">
                 </p>
@@ -24,7 +24,7 @@
                       <input type="number" id="pstock" v-model="product.pstock" class="form-control w-50" placeholder="수량"> 
                 </p>   
                 <p>
-                    <input type="file" id="pimg1">
+                    <input type="file" ref="file" id="pimg1" @change="selectFile">
                 </p>
                 <p>
                     <textarea class="form-control" rows="10" v-model="product.pdetail" id="pdetail" placeholder="상세정보 입력"></textarea>
@@ -48,24 +48,31 @@ data() {
             ptype: "",
             pprice: "",
             pstock: "",
+            selectedFiles: undefined,
+            currentFile: undefined,
             pimg1 : null,
             pdetail: "",
+            pdata: null
         },
         submitted: false
     }
 },
 methods: {
+    selectFile() {
+      this.selectedFiles = this.$refs.file.files;
+    },
     addProduct() {
         var productData = {
             pname: this.product.pname,
             ptype: this.product.ptype,
             pprice: this.product.pprice,
             pstock: this.product.pstock,
-            pimg1: this.product.pimg1,
+            pimg1: 0,
             pdetail: this.product.pdetail,
-
         };
-        ProductDataService.create(productData)
+        this.currentFile = this.selectedFiles.item(0);
+        this.pdata = new Blob([JSON.stringify(productData)], {type: "application/json"});   // 상품 정보 JSON
+        ProductDataService.create(this.pdata, this.currentFile) // 이미지 파일, 상품 정보 같이 보내기
         .then(response => {
             this.product.pid = response.data.pid;
             this.submitted = true;
