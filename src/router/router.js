@@ -7,6 +7,7 @@ import noticeCustomer from '../views/notice_customer.vue';
 import sidemenuAdmin from '../views/sidemenu_admin.vue';
 import sidemenuCustomer from '../views/sidemenu_customer.vue';
 import AddProduct from '../views/AddProduct.vue';
+import ProductList from '../views/ProductList.vue';
 import ChatBot from '../views/ChatBot.vue';
 import noticeAddAdmin from '../views/noticeadd_admin.vue';
 import noticeDetailAdmin from '../views/noticedetail_admin.vue';
@@ -60,6 +61,11 @@ export const router = new Router({
       path: '/admin/addProduct',
       name: 'addProduct',
       component: AddProduct
+    },
+    {
+      path: '/product/:ptype',
+      name: 'product-list',
+      component: ProductList
     },
     {
       path: '/notice',

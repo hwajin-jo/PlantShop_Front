@@ -1,5 +1,14 @@
 import http from"../http-common";
 class ProductDataService {
+    getAll(ptype) {
+        return http.get(`/product/${ptype}`);
+    }
+    getAllFile() {
+        return http.get("/product/files");
+    }
+    getFile(fid) {
+        return http.get(`/product/files/${fid}`);
+    }
     create(productData, file) {
         let formData = new FormData();
         formData.append('pdata', productData);  // 상품 정보
