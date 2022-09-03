@@ -12,15 +12,6 @@
                 <img src="" width="30px" height="30px">
             </a>
 
-            <ul class="list-group list-group-flush">
-                <li
-                    v-for="(file, index) in files"
-                    :key="index"
-                    >
-                    <img :src="file.url" style="width: 300px; height: 300px;">
-                </li>
-            </ul>
-
             <!-- 페이징 -->
             <div class="page_wrap">
                 <ul class="page_nation">
