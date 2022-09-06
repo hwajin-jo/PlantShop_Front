@@ -8,7 +8,6 @@ import sidemenuAdmin from '../views/sidemenu_admin.vue';
 import sidemenuCustomer from '../views/sidemenu_customer.vue';
 import AddProduct from '../views/AddProduct.vue';
 import ProductList from '../views/ProductList.vue';
-import ChatBot from '../views/ChatBot.vue';
 import noticeAddAdmin from '../views/noticeadd_admin.vue';
 import noticeDetailAdmin from '../views/noticedetail_admin.vue';
 import noticeDetailCustomer from '../views/noticedetail_customer.vue';
@@ -17,6 +16,13 @@ import noticeUpdate from '../views/noticeupdate_admin.vue';
 import addAddress from '../views/addaddress_customer.vue';
 import addressList from '../views/addressList_customer.vue';
 import addressUpdate from '../views/changeaddress_customer.vue';
+import ChatbotView from '../views/ChatbotView.vue';
+import faqCustomer from '../views/faq_customer.vue';
+import faqdetailCustomer from '../views/faqdetail_customer.vue';
+import faqdetailAdmin from '../views/faqdetail_admin.vue';
+import faqmanagementAdmin from '../views/faqmanagement_admin.vue';
+import faqaddAdmin from '../views/faqadd_admin.vue';
+import faqupdateAdmin from '../views/faqupdate_admin.vue';
 
 Vue.use(Router);
 export const router = new Router({
@@ -83,11 +89,6 @@ export const router = new Router({
       component: sidemenuCustomer
     },
     {
-      path: '/chatbot',
-      name: 'chatbot',
-      component: ChatBot
-    },
-    {
       path: '/admin/notice/add',
       name: 'noticeadd-admin',
       component: noticeAddAdmin
@@ -127,5 +128,35 @@ export const router = new Router({
       name: 'address-update',
       component: addressUpdate
     },
+    {
+      path: "/faq",
+      name: "faq-list",
+      component: faqCustomer
+    },
+    {
+      path: "/faq/detail/:fid",
+      name: "faq-detail-customer",
+      component: faqdetailCustomer
+    },
+    {
+      path: "/admin/faq/detail_admin/:fid",
+      name: "faq-detail-admin",
+      component: faqdetailAdmin
+    },
+    {
+      path: "/admin/faq",
+      name: "faq-admin",
+      component: faqmanagementAdmin
+    },
+    {
+      path: "/admin/faq/add",
+      name: "addfaq-admim",
+      component: faqaddAdmin
+    },
+    {
+      path: "/admin/faq/update/:fid",
+      name: "update-admin",
+      component: faqupdateAdmin
+    }
   ]
 });
