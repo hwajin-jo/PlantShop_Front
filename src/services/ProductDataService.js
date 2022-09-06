@@ -3,6 +3,9 @@ class ProductDataService {
     getAll(ptype) {
         return http.get(`/product/${ptype}`);
     }
+    getProduct(pid) {
+        return http.get(`/product/detail/${pid}`);
+    }
     getAllFile() {
         return http.get("/product/files");
     }

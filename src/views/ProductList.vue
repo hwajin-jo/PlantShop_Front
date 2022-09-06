@@ -1,20 +1,23 @@
 <template>
     <div class="products" style="margin-top: 50px;margin-bottom: 50px;">
         <div class="product_list">
+            <div>
+                <li v-for="(file, index) in files" :key="index">
+                    <img :src="file.url" width="225px" height="300px">
+                </li>
+            </div>
 
-            <li v-for="(file, index) in files" :key="index">
-                  <img :src="file.url" width="225px" height="300px">
-            </li>
-
-            <li class="product" v-for="(product, index) in products" :key="index">
+                <li class="product" v-for="(product, index) in products" :key="index">
                 <!-- <img :src="product.pimg1" width="225px" height="300px"> -->
-                <div class="product_name">
-                    {{product.pname}}
-                </div>
-                <div class="product_price">
-                    {{ product.pprice }}
-                </div>
-            </li>
+                    <div class="product_name">
+                        <router-link :to="`/product/detail/${product.pid}`"> {{product.pname}} </router-link>
+                    </div>
+                    <div class="product_price">
+                        {{ product.pprice }}
+                    </div>
+                </li>
+  
+
 
             <!-- 페이징 -->
             <!-- <div class="page_wrap">

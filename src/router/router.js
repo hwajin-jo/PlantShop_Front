@@ -8,6 +8,7 @@ import sidemenuAdmin from '../views/sidemenu_admin.vue';
 import sidemenuCustomer from '../views/sidemenu_customer.vue';
 import AddProduct from '../views/AddProduct.vue';
 import ProductList from '../views/ProductList.vue';
+import ProductDetail from '../views/ProductDetail.vue';
 import noticeAddAdmin from '../views/noticeadd_admin.vue';
 import noticeDetailAdmin from '../views/noticedetail_admin.vue';
 import noticeDetailCustomer from '../views/noticedetail_customer.vue';
@@ -16,7 +17,7 @@ import noticeUpdate from '../views/noticeupdate_admin.vue';
 import addAddress from '../views/addaddress_customer.vue';
 import addressList from '../views/addressList_customer.vue';
 import addressUpdate from '../views/changeaddress_customer.vue';
-import ChatbotView from '../views/ChatbotView.vue';
+
 import faqCustomer from '../views/faq_customer.vue';
 import faqdetailCustomer from '../views/faqdetail_customer.vue';
 import faqdetailAdmin from '../views/faqdetail_admin.vue';
@@ -72,6 +73,11 @@ export const router = new Router({
       path: '/product/:ptype',
       name: 'product-list',
       component: ProductList
+    },
+    {
+      path: '/product/detail/:pid',
+      name: 'product-detail',
+      component: ProductDetail
     },
     {
       path: '/notice',

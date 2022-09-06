@@ -1,18 +1,19 @@
 <template>
-  <div>
+<div>
        <div class="container container-mt">
             <div class="d-flex detail-mt-md">
                 <div class="repImgDiv">
-                    <img src="https://i.pinimg.com/564x/27/44/ae/2744ae97778187822f11e65da8019354.jpg" class="img-size" alt="testImg">
+
+                    <img :src="`http://localhost:8090/api/product/files/${currentProduct.pimg1}`" class="img-size">
                 </div>
-                <div class="h4 product_name">스파트필름</div>
+                <div class="h4 product_name">{{currentProduct.pname}}</div>
         
                 <div class="h4 product_price" style="margin-top: 40px;">
-                    <span>6900</span>원
+                    <span>{{currentProduct.pprice}}</span>원
                 </div>
                <div class="product_qunatity">
                     <span class="input-group-text" style="width:60px; height: 40px;">수량 &nbsp;&nbsp;
-                    <input type="number" style="width: 150px;" name="count" id="count" class="form-control" value="1" min="1"> </span>
+                    <input type="number" style="width: 150px;" name="count" id="count" v-model.number="count" class="form-control" value="1" min="1"> </span>
                 </div>
 
           
@@ -23,18 +24,18 @@
             <div class="orderBox">
                 <div class="text-right mgt-50">
                     <h5>결제 금액</h5>
-                    <h3 name="totalPrice" id="totalPrice" class="font-weight-bold">6900원</h3>
+                    <h3 name="totalPrice" id="totalPrice" class="font-weight-bold" >{{ totalPrice }}</h3>
                 </div>
     
                 <div class="text-right">
-                    <button type="button" class="btnCart" onclick="addCart()">장바구니 담기</button> &nbsp;
-                    <button type="button" class="btnBuy" onclick="buy()">구매하기</button>
+                    <button type="button" class="btnCart">장바구니 담기</button> &nbsp;
+                    <button type="button" class="btnBuy">구매하기</button>
                 </div>
             </div>
         </div>
        
        <div>
-                  <!-- Detail / review / QnA 탭 구현 시작-->
+                         <!-- Detail / review / QnA 탭 구현 시작-->
             <div id="root" class="root">
                 <div class="wrap">
                    
@@ -152,9 +153,55 @@
 </template>
 
 <script>
+import ProductDataService from '../services/ProductDataService';
 export default {
   name: 'ProductDetail',
+  data() {
+    return {
+        products: [],
+        files: [],
+        currentFile: null,
+        currentProduct: {
+            pid: null,
+            pname: "",
+            ptype: "",
+            pprice: "",
+            pstock: 0,
+            pimg1: "",
+            pdetail: "",
+        },
+        currentIndex: -1,
+        count: 1,
+    }
+  },
+  computed : {
+    totalPrice: function() {
+        return this.currentProduct.pprice * this.count;
+    }
+  },
+  methods: {
+    getProduct(pid) {
+        ProductDataService.getProduct(pid)
+        .then(response => {
+            this.currentProduct = response.data;
+            console.log(this.$route.params.pid);
+        }).catch(e => {
+            console.log(e);
+        })
+    },
+    getFile(fid) {
+        ProductDataService.getFile(fid)
+        .then(response => {
+            this.currentFile = response.data;
+            console.log(this.$route.params.fid);
+        }).catch(e => {
+            console.log(e);
+        })
+    },
+
+  },
   mounted() {
+    this.getProduct(this.$route.params.pid);
     // 탭 누르면 해당 화면으로 전환하는 JS 코드
     const tabList = document.querySelectorAll('.tab_menu .list li');
     for (let i = 0; i < tabList.length; i++) {
