@@ -11,7 +11,7 @@
         <div>
           <label id="cart_image"
             ><img
-              :src="require(`../assets/img/${fileName}.png`)"
+              :src="`http://localhost:8090/api/product/files/${cart.product.pimg1}`"
               style="width: 200px; height: 240px; float: left"
           /></label>
         </div>
@@ -81,7 +81,7 @@ export default {
   name: "cart-customer",
   data() {
     return {
-      fileName: "banner1",
+      
       cartlist: [],
       currentCart: {
         cid: null,
