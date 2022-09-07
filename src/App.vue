@@ -14,23 +14,23 @@
             About
           </router-link>
         </li>
-        <li class="nav-item">
-          <router-link to="/potplant" style="color: rgb(64,64,64)" class="nav-link">
+        <li class="nav-item" @click="refreshList()">
+          <router-link to="/product/화분식물" style="color: rgb(64,64,64)" class="nav-link">
             화분식물
           </router-link>
         </li>
-        <li class="nav-item">
-          <router-link to="/airplant" style="color: rgb(64,64,64)" class="nav-link">
+        <li class="nav-item" @click="refreshList()">
+          <router-link to="/product/공중식물" style="color: rgb(64,64,64)" class="nav-link">
             공중식물
           </router-link>
         </li>
-        <li class="nav-item">
-          <router-link to="/succulentplant" style="color: rgb(64,64,64)" class="nav-link">
-            댜육식물
+        <li class="nav-item" @click="refreshList()">
+          <router-link to="/product/다육식물" style="color: rgb(64,64,64)" class="nav-link">
+            다육식물
           </router-link>
         </li>
-        <li class="nav-item">
-          <router-link to="/others" style="color: rgb(64,64,64); margin-right: 600px;" class="nav-link">
+        <li class="nav-item" @click="refreshList()">
+          <router-link to="/product/기타상품" style="color: rgb(64,64,64); margin-right: 600px;" class="nav-link">
             기타상품
           </router-link>
         </li>
@@ -105,6 +105,9 @@ export default {
     logOut() {
       this.$store.dispatch('auth/logout');
       this.$router.push('/login');
+    },
+    refreshList() {
+      window.location.reload(true);
     }
   }
 };
