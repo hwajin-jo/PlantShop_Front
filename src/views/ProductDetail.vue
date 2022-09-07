@@ -13,7 +13,7 @@
                 </div>
                <div class="product_qunatity">
                     <span class="input-group-text" style="width:60px; height: 40px;">수량 &nbsp;&nbsp;
-                    <input type="number" style="width: 150px;" name="count" id="count" v-model.number="count" class="form-control" value="1" min="1"> </span>
+                    <input type="number" style="width: 150px;" name="count" id="count" v-model.number="cart.pquantity" class="form-control" value="1" min="1"> </span>
                 </div>
 
           
@@ -28,7 +28,7 @@
                 </div>
     
                 <div class="text-right">
-                    <button type="button" class="btnCart">장바구니 담기</button> &nbsp;
+                    <button type="button" class="btnCart" @click="putintoCart">장바구니 담기</button> &nbsp;
                     <button type="button" class="btnBuy">구매하기</button>
                 </div>
             </div>
@@ -154,6 +154,7 @@
 
 <script>
 import ProductDataService from '../services/ProductDataService';
+import cartService from '../services/cart.service';
 export default {
   name: 'ProductDetail',
   data() {
@@ -170,8 +171,21 @@ export default {
             pimg1: "",
             pdetail: "",
         },
+        cart: {
+            cid: null,
+            product: {
+                pid: null,
+                pname: "",
+                ptype: "",
+                pprice: 0,
+                pdetail: "",
+                pimg1: "",
+            }
+        },
         currentIndex: -1,
         count: 1,
+        pquantity: 0,
+        username: "",
     }
   },
   computed : {
@@ -198,6 +212,42 @@ export default {
             console.log(e);
         })
     },
+    putintoCart(pid){
+                pid = this.$route.params.pid;
+                console.log(pid);
+                ProductDataService.getProduct(pid)
+                .then(response => {
+                    this.currentProduct = response.data;
+                    console.log(response.data);
+                }).catch(e => {
+                    console.log(e);
+                });
+                var idToken = window.localStorage.getItem("user");
+                var jsonIdToken = JSON.parse(idToken);
+                this.cart.username = jsonIdToken.username;
+                console.log(jsonIdToken.username);
+                var newCart = {
+                    product : this.currentProduct,
+                    username: this.cart.username,
+                    pquantity: this.cart.pquantity
+                };
+                cartService.create(newCart)
+                .then(response => {
+                    this.cart = response.data;
+                    console.log(response.data);
+                    console.log(this.currentProduct.pid);
+                    var confirm 
+                    = window.confirm("해당 상품을 장바구니에 추가하였습니다. 장바구니로 이동하시겠습니까?")
+                    if(confirm){
+                        this.$router.push({name: 'cartlist'})
+                    } else {
+                        this.$router.go(0);
+                    }
+                }).catch(e => {
+                    console.log(e);
+
+                })
+            }
 
   },
   mounted() {
@@ -213,6 +263,11 @@ export default {
             this.parentNode.classList.add('is_on');
         });
     }
+
+    var idToken = window.localStorage.getItem("user");
+                var jsonTokenpar = JSON.parse(idToken);
+                this.cart.username = jsonTokenpar.username;
+                console.log(this.cart.username);
 
 
     },
