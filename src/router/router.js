@@ -25,6 +25,9 @@ import faqmanagementAdmin from '../views/faqmanagement_admin.vue';
 import faqaddAdmin from '../views/faqadd_admin.vue';
 import faqupdateAdmin from '../views/faqupdate_admin.vue';
 
+import about from '../views/about_customer.vue';
+import cartList from '../views/cart_customer.vue';
+
 Vue.use(Router);
 export const router = new Router({
   mode: 'history',
@@ -163,6 +166,16 @@ export const router = new Router({
       path: "/admin/faq/update/:fid",
       name: "update-admin",
       component: faqupdateAdmin
-    }
+    },
+    {
+      path: '/about',
+      name: 'about',
+      component: about
+    },
+    {
+      path: '/cart',
+      name: 'cartlist',
+      component: cartList
+    },
   ]
 });
