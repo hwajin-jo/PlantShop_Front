@@ -30,7 +30,7 @@
             <br><br>
 
             <button style="margin-left: 90px;" class="btn" type="button" @click="modifyAddress" >배송지 수정하기</button>&nbsp;
-            <button style="margin-left: 0px;" class="btn" type="button" @click="deleteAddress" >배송지 삭제하기</button>&nbsp;
+           
             <button class="btn1" type="button" @click="backtoList"> 돌아가기 </button>
         </div>
         <div v-else style="text-align: center">
@@ -97,17 +97,7 @@
                     this.$router.go(-1);
                 })
             },
-            deleteAddress(){
-                console.log(this.currentAddress);
-                AddressService.delete(this.currentAddress.aid)
-                .then(response => {
-                    console.log(response.data);
-                    alert("배송지를 삭제하였습니다.");
-                    this.$router.push({name: 'address-list'});
-                }).catch(e => {
-                    console.log(e);
-                })
-            },
+            
             showApi() {
       new window.daum.Postcode({
         oncomplete: (data) => {
