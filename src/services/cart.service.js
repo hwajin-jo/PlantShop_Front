@@ -7,7 +7,7 @@ getbyId(cid) {
     return http.get(`/auth/cart/list/${username}`, username);
   }
   create(cartData) {
-    return http.post("/auth/cart/register", cartData);
+    return http.post("/auth/cart/add", cartData);
   }                                            
   updateCart(cid, cart) {
     return http.put(`/auth/cart/modify/${cid}`, cart);
