@@ -32,7 +32,7 @@
                     </tr>
                     <tr>
                         <td></td>
-                        <td><router-link tag="button" id="router-link" :to="`/user/address/update/${address.aid}`" style="float: right; width: 80px; vertical-align: middle; font-size: 14px; height: 40px; width: 115px;">수정 / 삭제하기</router-link></td>
+                        <td><button tag="button" id="router-link" @click="deleteAddress(address.aid)" style="float: right; width: 80px; vertical-align: middle; font-size: 14px; height: 30px; width: 80px;">삭제하기</button><router-link tag="button" id="router-link" :to="`/user/address/update/${address.aid}`" style="float: right; width: 80px; vertical-align: middle; font-size: 14px; height: 30px; width: 80px;">수정하기</router-link></td>
                     </tr>
                 </tbody>
             </table>
@@ -109,9 +109,22 @@ export default {
             console.log(e);
         })
        },
-       findIndex(){
-        
-       },
+       deleteAddress(aid){
+        var confirm = window.confirm("정말 삭제하시겠습니까?");
+        this.currentAddress.aid = aid;
+        if(confirm){
+        AddressService.delete(this.currentAddress.aid)
+        .then(response => {
+            console.log(response.data);
+            alert("배송지가 삭제되었습니다.");
+            this.$router.go(0);
+        }).catch(e => {
+            console.log(e);
+        })
+        } else {
+            this.$router.go(0);
+        }
+    }
       
     },
     mounted(){
