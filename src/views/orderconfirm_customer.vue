@@ -14,8 +14,9 @@
             <tbody v-for="(cart, index) in cartList" :key="index">
                 <tr >
                     <td style="border: 1px solid black;">{{index+1}}</td>
-                    <td style="border: 1px solid black;"><img
-              :src="currentCart.product.pimg1"
+                    <td style="border: 1px solid black;">
+                        <img
+              :src="cart.product.pimg1"
               style="width: 140px; height: 140px; float: left"
           /></td>
                     <td style="border: 1px solid black;">{{cart.product.pname}}</td>
@@ -178,7 +179,7 @@
                     console.log(e);
                 });
                 },
-            addOrder(){
+                addOrder(){
                     var idToken = window.localStorage.getItem("user");
                     var jsonTokenpar = JSON.parse(idToken);
                     this.username = jsonTokenpar.username;

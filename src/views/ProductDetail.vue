@@ -4,7 +4,7 @@
                 <div class="d-flex detail-mt-md">
                     <div class="repImgDiv">
     
-                        <img :src="`http://localhost:8090/api/product/files/${currentProduct.pimg1}`" class="img-size">
+                        <img :src="currentProduct.pimg1" class="img-size">
                     </div>
                     <div class="h4 product_name">{{currentProduct.pname}}</div>
             

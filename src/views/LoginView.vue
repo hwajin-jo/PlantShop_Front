@@ -40,7 +40,7 @@
         <div class="form-group">
           <button class="btn btn-block" style="background-color: rgb(22, 160, 133); color: white" :disabled="loading">
             <span v-show="loading" class="spinner-border spinner-border-sm"></span>
-            <span>Login</span>
+            <span>로그인</span>
           </button>
         </div>
         <div class="form-group">

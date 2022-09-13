@@ -11,7 +11,7 @@
         <div>
           <label id="cart_image"
             ><img
-              :src="`http://localhost:8090/api/product/files/${cart.product.pimg1}`"
+              :src="cart.product.pimg1"
               style="width: 200px; height: 240px; float: left"
           /></label>
         </div>
