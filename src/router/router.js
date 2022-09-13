@@ -32,6 +32,7 @@ import cartList from '../views/cart_customer.vue';
 
 import orderConfirms from '../views/orderconfirm_customer.vue';
 import orderConfirm from '../views/orderconfirm_customer_one.vue';
+import ChatBot from '../views/ChatbotView.vue';
 
 Vue.use(Router);
 export const router = new Router({
@@ -202,6 +203,11 @@ export const router = new Router({
       name: 'order-confirm-forone',
       component: orderConfirm
     },
+    {
+      path: '/chatbot',
+      name: 'ChatBot',
+      component: ChatBot
+    }
 
   ]
 });
