@@ -124,5 +124,6 @@ components: {
 #product-add button {   /* 등록 버튼 */
     background-color: rgb(22, 160, 133);
     color: white;
+    margin-left: 0px;
 }
 </style>

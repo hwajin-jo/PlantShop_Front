@@ -8,7 +8,7 @@
       />
       <form name="form" @submit.prevent="handleLogin">
         <div class="form-group">
-          <label for="username">Username</label>
+          <label for="username">아이디</label>
           <input
             v-model="user.username"
             v-validate="'required'"
@@ -20,10 +20,10 @@
             v-if="errors.has('username')"
             class="alert alert-danger"
             role="alert"
-          >Username is required!</div>
+          >아이디는 필수입니다.</div>
         </div>
         <div class="form-group">
-          <label for="password">Password</label>
+          <label for="password">비밀번호</label>
           <input
             v-model="user.password"
             v-validate="'required'"
@@ -35,10 +35,10 @@
             v-if="errors.has('password')"
             class="alert alert-danger"
             role="alert"
-          >Password is required!</div>
+          >비밀번호는 필수입니다.</div>
         </div>
         <div class="form-group">
-          <button class="btn btn-primary btn-block" :disabled="loading">
+          <button class="btn btn-block" style="background-color: rgb(22, 160, 133); color: white" :disabled="loading">
             <span v-show="loading" class="spinner-border spinner-border-sm"></span>
             <span>Login</span>
           </button>

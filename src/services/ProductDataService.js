@@ -6,6 +6,9 @@ class ProductDataService {
     getProduct(pid) {
         return http.get(`/product/detail/${pid}`);
     }
+    getAllAdmin() {
+        return http.get(`/product/all`)
+    }
     // getAllFile() {
     //     return http.get("/product/files");
     // }
@@ -21,6 +24,13 @@ class ProductDataService {
                 "Content-Type": "multipart/form-data"
             }
         });
+    }
+    update(pid) {
+        return http.get(`/product/modify/${pid}`);
+    }
+
+    updateProduct(pid, product) {
+        return http.put(`/product/modify/${pid}`, product );
     }
 }
 
