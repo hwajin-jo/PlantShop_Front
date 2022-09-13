@@ -19,17 +19,16 @@ import noticeUpdate from '../views/noticeupdate_admin.vue';
 import addAddress from '../views/addaddress_customer.vue';
 import addressList from '../views/addressList_customer.vue';
 import addressUpdate from '../views/changeaddress_customer.vue';
-
 import faqCustomer from '../views/faq_customer.vue';
 import faqdetailCustomer from '../views/faqdetail_customer.vue';
 import faqdetailAdmin from '../views/faqdetail_admin.vue';
 import faqmanagementAdmin from '../views/faqmanagement_admin.vue';
 import faqaddAdmin from '../views/faqadd_admin.vue';
 import faqupdateAdmin from '../views/faqupdate_admin.vue';
-
+import ordersList from '../views/ordlist_customer.vue';
+import ordermanagementAdmin from '../views/ordermanagement_admin.vue';
 import about from '../views/about_customer.vue';
 import cartList from '../views/cart_customer.vue';
-
 import orderConfirms from '../views/orderconfirm_customer.vue';
 import orderConfirm from '../views/orderconfirm_customer_one.vue';
 import ChatBot from '../views/ChatbotView.vue';
@@ -207,7 +206,16 @@ export const router = new Router({
       path: '/chatbot',
       name: 'ChatBot',
       component: ChatBot
+    },
+    {
+      path: '/user/orders',
+      name: 'orders-list',
+      component: ordersList
+    },
+    {
+      path: '/admin/orders',
+      name: 'orders-admin',
+      component: ordermanagementAdmin
     }
-
   ]
 });

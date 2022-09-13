@@ -15,7 +15,7 @@
                 <tr >
                     <td style="border: 1px solid black;">1</td>
                     <td style="border: 1px solid black;"><img
-              :src="`http://localhost:8090/api/product/files/${currentCart.product.pimg1}`"
+              :src="currentCart.product.pimg1"
               style="width: 140px; height: 140px; float: left"
           /></td>
                     <td style="border: 1px solid black;">{{currentCart.product.pname}}</td>
@@ -76,7 +76,7 @@
         </table>
         <hr style="width: 540px;">
             <div style="margin-top: 100px; margin-bottom: 40px;">
-                <button type="button" style="background-color: rgb(22,160,133); border: none; color: white; border-radius: 5px; margin-left: 80px; width: 150px; height: 40px;">주문하기</button>
+                <button type="button" style="background-color: rgb(22,160,133); border: none; color: white; border-radius: 5px; margin-left: 80px; width: 150px; height: 40px;" @click="addOrder">주문하기</button>
                 <button type="button" style="background-color: rgb(22,160,133); border: none; color: white; border-radius: 5px; margin-left: 100px; width: 150px; height: 40px;" @click="back">취소하기</button>
             </div>    
     </div>
@@ -85,6 +85,7 @@
 <script>
     import CartService from '../services/cart.service';
     import AddressService from '../services/address.service';
+    import OrdersDataService from '../services/OrdersDataService';
     export default{
         name: 'order-confirm',
         data(){
@@ -151,6 +152,29 @@
                 .catch((e) => {
                     console.log(e);
                 });
+                },
+            addOrder(){
+                    var idToken = window.localStorage.getItem("user");
+                    var jsonTokenpar = JSON.parse(idToken);
+                    this.username = jsonTokenpar.username;
+                    var orderData = { 
+                        pid: this.currentCart.product.pid,
+                        pname: this.currentCart.product.pname,
+                        pprice: this.currentCart.product.pprice,
+                        ocount: this.total, 
+                        pimg1:this.currentCart.product.pimg1,
+                        ototal:this.totalQty,
+                        username: this.username          
+                    };
+                    OrdersDataService.create(orderData)
+                    .then(response =>{
+                    this.products = response.data;
+                    console.log(response.data);
+                    this.products.pid = response.data.pid;
+                    this.submitted = true;
+                    alert("구매가 완료되었습니다.");
+                }).catch(e=>console.log(e));
+
                 },
            
             msgbox(){

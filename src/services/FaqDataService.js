@@ -1,31 +1,31 @@
 import http from "../http-common";
 class FaqDataService {
   getAll_admin() {
-    return http.get("/auth/faq/list_admin");
+    return http.get("/faq/list_admin");
   }
 
   getAll() {
-    return http.get("/auth/faq/list");
+    return http.get("/faq/list");
   }
 
   get_admin(fid) {
-    return http.get(`/auth/faq/detail_admin/${fid}`);
+    return http.get(`/faq/detail_admin/${fid}`);
   }
 
   get(fid) {
-    return http.get(`/auth/faq/detail/${fid}`);
+    return http.get(`/faq/detail/${fid}`);
   }
   create(faqData) {
-    return http.post("/auth/faq/create", faqData);
+    return http.post("/faq/create", faqData);
   }
   update(fid) {
-    return http.get(`/auth/faq/modify/${fid}`);
+    return http.get(`/faq/modify/${fid}`);
   }
   updateFaq(fid, faq) {
-    return http.put(`/auth/faq/modify/${fid}`, faq);
+    return http.put(`/faq/modify/${fid}`, faq);
   }
   delete(fid) {
-    return http.delete(`/auth/faq/delete/${fid}`);
+    return http.delete(`/faq/delete/${fid}`);
   }
  
 }

@@ -29,6 +29,7 @@
                         <button type="button" class="btnCart" @click="putintoCart">장바구니 담기</button> &nbsp;
                         <button type="button" class="btnBuy" @click="toPayment">구매하기</button>
                     </div>
+
                 </div>
             </div>
            
@@ -143,14 +144,15 @@
                         </div>
                     </div>
                 </div>
+
                 <!-- 탭 형식 화면구현 종료 -->
                 <!-- 여기에 탭해서 상세페이지 / 문의하기 / 상품평 구현-->
            </div>
           
       </div>
-    </template>
+</template>
     
-    <script>
+<script>
     import ProductDataService from '../services/ProductDataService';
     import cartService from '../services/cart.service';
     export default {
@@ -227,6 +229,7 @@
     
                     })
         },
+
 
         getProduct(pid) {
             ProductDataService.getProduct(pid)
@@ -305,11 +308,12 @@
     
     
         },
+
     }
-    </script>
+</script>
     
     
-    <style>
+<style>
     .repImgDiv{
         margin-right:15px;
         height:auto;
@@ -673,4 +677,4 @@
     
     
     
-    </style>
+</style>
