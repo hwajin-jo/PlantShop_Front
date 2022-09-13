@@ -28,6 +28,9 @@ import faqupdateAdmin from '../views/faqupdate_admin.vue';
 import about from '../views/about_customer.vue';
 import cartList from '../views/cart_customer.vue';
 
+import orderConfirms from '../views/orderconfirm_customer.vue';
+import orderConfirm from '../views/orderconfirm_customer_one.vue';
+
 Vue.use(Router);
 export const router = new Router({
   mode: 'history',
@@ -177,5 +180,16 @@ export const router = new Router({
       name: 'cartlist',
       component: cartList
     },
+    {
+      path: '/orderconfirm',
+      name: 'order-confirm',
+      component: orderConfirms
+    },
+    {
+      path: '/orderconfirm/:cid',
+      name: 'order-confirm-forone',
+      component: orderConfirm
+    },
+
   ]
 });

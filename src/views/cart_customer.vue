@@ -5,7 +5,7 @@
         id="cart_item"
         v-for="(cart, index) in cartlist"
         :key="index"
-        @click="setCurrent(cart.cid)"
+        
       >
         <!-- 장바구니 아이템 목록 반복문으로 구현 예정 -->
         <div>
@@ -50,7 +50,7 @@
             {{ cart.product.pprice * cart.pquantity }}</label
           >
           <canvas class="graySquare"> </canvas>
-          <button type="button" id="purchase_btn">구매하기</button>
+          <router-link tag="button" type="button" id="purchase_btn" :to="`/orderconfirm/${cart.cid}`">구매하기</router-link>
           <button type="button" id="delete_btn" @click="deleteCart(cart.cid)">
             삭제하기
           </button>
@@ -59,7 +59,9 @@
       <div>
         <label id="total_price" style="float: right; margin-right: 500px">
           합계 : {{ total }}
+          
         </label>
+        <router-link tag="button" :to="`/orderconfirm`" type="button" id="order-all" style="position: relative; margin-top: 100px; float: center; margin-left: 500px; background-color: rgb(22,160, 133); color:white; font-size: 20px; border-radius: 8px; border: none; width: 140px; height: 40px; ">전체 주문하기</router-link>
       </div>
 
       <!-- <nav id="paging" style="z-index: -1;">
@@ -72,6 +74,8 @@
             </ul>
         </nav>  -->
     </div>
+
+    
   </div>
 </template>
 
@@ -94,9 +98,7 @@ export default {
     };
   },
   methods: {
-    setCurrent(cid) {
-      this.currentCart.cid = cid;
-    },
+    
     deleteCart(cid) {
       this.currentCart.cid = cid;
       var confirm = window.confirm("정말 삭제하시겠습니까?")

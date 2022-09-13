@@ -1,7 +1,7 @@
 import http from "../http-common";
 class CartService {
 getbyId(cid) {
-    return http.get(`/auth/cart/list/${cid}`, cid);
+    return http.get(`/auth/cart/${cid}`, cid);
     }
   getAll(username) {
     return http.get(`/auth/cart/list/${username}`, username);
