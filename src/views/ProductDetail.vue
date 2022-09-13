@@ -220,8 +220,8 @@
                         console.log(response.data);
                         console.log(this.cart.pid);
                         alert("결제 페이지로 이동합니다.");
-                        this.$router.push("/orderconfirm/" + this.cart.cid);
-                        cartService.delete(this.cart.cid);
+                        this.$router.push("/orderconfirm/" + this.cart.cid).then(cartService.delete(this.cart.cid));
+                        
                     }).catch(e => {
                         console.log(e);
     
