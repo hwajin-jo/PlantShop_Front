@@ -1,0 +1,100 @@
+#side_list ul {
+    list-style : none;
+    background-color: rgb(22, 160, 133);
+    width: 150px;
+    padding: 0;
+    margin: 0;
+    position: fixed;
+    height: 260px;
+    overflow: auto;
+
+}
+
+#side_list ul li a {
+    text-decoration: none;
+    display: block;
+    color: white;
+    padding: 8px 15px 8px 15px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+#side_list ul li a.side_active {
+    background-color: rgb(241, 196, 15);
+    color: white;
+}
+
+footer {
+    margin-top: 200px;
+}
+#root {
+    width: 1200px;
+    min-height: 500px;
+    margin-left: 400px;
+    margin-top: 100px;
+    margin-bottom: 100px;
+    text-align: left;
+}
+
+.table-p {
+    width: 100%;
+    margin: 0 auto;
+}
+
+/* 페이지 */
+#paging {
+    width: 100%;
+    text-align: center;
+    margin-top: 70px;
+}
+#paging button {
+    width: 30px;
+    height: 30px;
+    border-radius: 10px;
+    border: 0;
+    background-color: rgb(240, 240, 240);
+}
+
+.title {
+    background-color: rgb(224, 224, 224);
+    padding: 10px;
+    border-radius: 5px;
+}
+.Qna_table {
+    text-align: center;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.Qna_table thead {
+    border-top: 2px solid rgb(224, 224, 224);
+    background-color: rgb(224, 224, 224);
+}
+.Qna_table thead th:nth-child(1) {
+    width: 10%;
+}
+.Qna_table thead th:nth-child(2) {
+    width: 10%;
+}
+.Qna_table thead th:nth-child(3) {
+    width: 40%;
+}
+.Qna_table thead th:nth-child(4) {
+    width: 15%;
+}
+.Qna_table thead th:nth-child(5) {
+    width: 15%;
+}
+.Qna_table thead th:nth-child(6) {
+    width: 10%;
+}
+.Qna_table tbody {
+    background-color: white;
+    border-top: 2px solid rgb(224, 224, 224);
+    border-bottom: 2px solid rgb(224, 224, 224);
+}
+
+.Qna_table a {
+    text-decoration: none;
+    color: black;
+}

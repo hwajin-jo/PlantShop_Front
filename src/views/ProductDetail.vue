@@ -103,37 +103,73 @@
                                     <button type="button" class="btn">Q&A</button>
                                     <div id="tab3" class="cont">
                                         <!-- Q&A 화면 구성 시작 -->
-                                         <div id="qnaContent">
+                                        <div id="qnaContent">
                                             <h3>Q&A</h3> <hr>
-                                            <button type="button" id="createqnaBtn" onclick="addqna_customer()">문의하기</button><br><br>
-                                            <table id="qnaTable">
+                                            <button type="button" id="createqnaBtn" @click="addqna_customer()">문의하기</button><br><br>
+                                            <!-- 문의글 상세 내용 -->
+                                            <div v-if="questionShow" id="questionDetail">
+                                                <h4>{{ currentQuestion.qtitle }}</h4>
+                                                {{ currentQuestion.mid }}
+                                                {{ currentQuestion.qdate }}
+                                                <p class="qnaContent"> {{ currentQuestion.qcontent }} </p>
+                                                <p id="answerBtn">
+                                                    <button v-if="username == 'admin' && currentQuestion.isanswered == '답변필요'" @click="registerAnswer(currentQuestion.qid)">답변 등록</button>
+                                                    <button v-if="username == currentQuestion.mid && currentQuestion.isanswered == '답변필요'" @click="deleteQuestion(currentQuestion.qid)">삭제</button>
+                                                    <button v-if="username == currentQuestion.mid && currentQuestion.isanswered == '답변필요'" @click="modifyQuestion(currentQuestion.qid)">수정</button>
+                                                </p>
+
+                                                <!-- 답변 내용 -->
+                                                <div id="answerDiv" v-if="currentQuestion.isanswered == '답변완료'">
+                                                    <hr>
+                                                    <h4>{{ currentAnswer.atitle }}</h4>
+                                                    {{ currentAnswer.adate }}
+                                                    <p class="qnaContent"> {{ currentAnswer.acontent }} </p>
+                                                    <p id="answerBtn">
+                                                        <button v-if="username == 'admin'" @click="deleteAnswer(currentAnswer.aid)">삭제</button>
+                                                        <button v-if="username == 'admin'" @click="modifyAnswer(currentAnswer.qid)">수정</button>
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            <!-- 문의글 목록 -->
+                                            <table id="qnaTable" v-if="questions != []">
                                                 <thead>
-                                                    <th style="width: 80px;"> 번호 </th>
-                                                    <th style="width: 800px;"> 제목 </th>
-                                                    <th style="width: 200px;"> 작성자 </th>
+                                                    <th style="width: 10%"> 번호 </th>
+                                                    <th style="width: 50%"> 제목 </th>
+                                                    <th style="width: 20%"> 작성자 </th>
+                                                    <th style="width: 20%"> 등록일 </th>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
-                                                        <td> 1</td>
-                                                        <td>  <a href="#">예뻐요</a> </td>
-                                                        <td> ***2015</td>
+                                                    <tr v-for="(question, index) in questions" :key="index">
+                                                        <td> {{ question.qid }} </td>
+                                                        <td>
+                                                            <button id="questionTitle" @click="getQuestion(question.qid)">{{ question.qtitle }}</button>
+                                                            <span class="badge badge-primary mgb-15" v-if="question.isanswered == '답변완료'">답변완료</span>
+                                                        </td>
+                                                        <td> {{ question.mid }} </td>
+                                                        <td> {{ question.qdate}} </td>
                                                     </tr>
                                                 </tbody>
                                             </table>
+                                            <p v-if="questions == []">
+                                                문의사항이 없습니다.
+                                            </p>
+                                            <!--
                                             <p id="paging">
                                                 <button style="color:white; background-color:rgb(22, 160, 133)">1</button>
                                                 <button>2</button>
                                                 <button >3</button>
                                                 <button>4</button>
                                             </p>
+                                            -->
                                             <!-- 페이징 부트스트랩 코드 -->
-                                             <!-- <nav style="z-index: -1;">
+                                            <!-- <nav style="z-index: -1;">
                                                     <ul class="pagination pagination-sm d-flex justify-content-center">
-                                                      <li class="page-item active" aria-current="page">
+                                                    <li class="page-item active" aria-current="page">
                                                         <span class="page-link">1</span>
-                                                      </li>
-                                                      <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                                      <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                                    </li>
+                                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
                                                     </ul>
                                                 </nav>    -->
                                         </div>   
@@ -155,6 +191,9 @@
 <script>
     import ProductDataService from '../services/ProductDataService';
     import cartService from '../services/cart.service';
+    import QuestionDataService from '../services/QuestionDataService';
+    import AnswerDataService from '../services/AnswerDataService';
+
     export default {
       name: 'ProductDetail',
       data() {
@@ -162,6 +201,10 @@
             products: [],
             files: [],
             currentFile: null,
+            questions: [],
+            currentQuestion: null,
+            questionShow: false,
+            currentAnswer: null,
             currentProduct: {
                 pid: null,
                 pname: "",
@@ -250,45 +293,116 @@
             })
         },
         putintoCart(pid){
-                    pid = this.$route.params.pid;
-                    console.log(pid);
-                    ProductDataService.getProduct(pid)
-                    .then(response => {
-                        this.currentProduct = response.data;
-                        console.log(response.data);
-                    }).catch(e => {
-                        console.log(e);
-                    });
-                    var idToken = window.localStorage.getItem("user");
-                    var jsonIdToken = JSON.parse(idToken);
-                    this.cart.username = jsonIdToken.username;
-                    console.log(jsonIdToken.username);
-                    var newCart = {
-                        product : this.currentProduct,
-                        username: this.cart.username,
-                        pquantity: this.cart.pquantity
-                    };
-                    cartService.create(newCart)
-                    .then(response => {
-                        this.cart = response.data;
-                        console.log(response.data);
-                        console.log(this.currentProduct.pid);
-                        var confirm 
-                        = window.confirm("해당 상품을 장바구니에 추가하였습니다. 장바구니로 이동하시겠습니까?")
-                        if(confirm){
-                            this.$router.push({name: 'cartlist'})
-                        } else {
-                            this.$router.go(0);
-                        }
-                    }).catch(e => {
-                        console.log(e);
-    
-                    })
+            pid = this.$route.params.pid;
+            console.log(pid);
+            ProductDataService.getProduct(pid)
+            .then(response => {
+                this.currentProduct = response.data;
+                console.log(response.data);
+            }).catch(e => {
+                console.log(e);
+            });
+            var idToken = window.localStorage.getItem("user");
+            var jsonIdToken = JSON.parse(idToken);
+            this.cart.username = jsonIdToken.username;
+            console.log(jsonIdToken.username);
+            var newCart = {
+                product : this.currentProduct,
+                username: this.cart.username,
+                pquantity: this.cart.pquantity
+            };
+            cartService.create(newCart)
+            .then(response => {
+                this.cart = response.data;
+                console.log(response.data);
+                console.log(this.currentProduct.pid);
+                var confirm 
+                = window.confirm("해당 상품을 장바구니에 추가하였습니다. 장바구니로 이동하시겠습니까?")
+                if(confirm){
+                    this.$router.push({name: 'cartlist'})
+                } else {
+                    this.$router.go(0);
                 }
-    
+            }).catch(e => {
+                console.log(e);
+
+            })
+        },
+
+        retrieveQuestions() {   // 전체 문의글 목록
+            QuestionDataService.getAll(this.$route.params.pid)
+            .then(response => {
+                this.questions = response.data;
+                console.log(response.data);
+            })
+            .catch(e => {
+                console.log(e);
+            });
+        },
+        getQuestion(qid) {  // 문의글 상세
+            QuestionDataService.get(qid)
+            .then(response => {
+                this.questionShow = true;
+
+                this.currentQuestion = response.data;
+                console.log(response.data);
+            }).catch(e => {
+                console.log(e);
+            });
+            this.getAnswer(qid);
+        },
+        addqna_customer() { // 문의글 작성 페이지로 이동
+            this.$router.push({ name: 'product-question-customer', params: {pid: this.$route.params.pid} });
+        },
+        modifyQuestion(id) {
+            this.$router.push({ name: 'product-question-modify', params: {qid: id} })
+        },
+        deleteQuestion(qid) {
+            var confirm = window.confirm("정말 삭제하시겠습니까?")
+            if(confirm){
+                QuestionDataService.delete(qid)
+                .then(response => {
+                    console.log(response.data);
+                    this.$router.go();
+                })
+                .catch(e => {
+                    console.log(e);
+                });
+            }
+        },
+        getAnswer(qid) {    // 문의글 답변
+            AnswerDataService.get(qid)
+            .then(response => {
+                this.currentAnswer = response.data;
+                console.log(response.data);
+            }).catch(e => {
+                console.log(e);
+            })
+        },
+        registerAnswer(id) {
+            this.$router.push({ name: 'answer-register', params: {qid: id} })
+        },
+        modifyAnswer(id) {
+            this.$router.push({ name: 'answer-modify', params: {qid: id} })
+        },
+        deleteAnswer(aid) {
+            var confirm = window.confirm("정말 삭제하시겠습니까?")
+            if(confirm){
+                AnswerDataService.delete(aid)
+                .then(response => {
+                    console.log(response.data);
+                    this.$router.go();
+                })
+                .catch(e => {
+                    console.log(e);
+                });
+            }
+        }
       },
       mounted() {
         this.getProduct(this.$route.params.pid);
+        this.retrieveQuestions();
+
         // 탭 누르면 해당 화면으로 전환하는 JS 코드
         const tabList = document.querySelectorAll('.tab_menu .list li');
         for (let i = 0; i < tabList.length; i++) {
@@ -302,11 +416,11 @@
         }
     
         var idToken = window.localStorage.getItem("user");
-                    var jsonTokenpar = JSON.parse(idToken);
-                    this.cart.username = jsonTokenpar.username;
-                    console.log(this.cart.username);
+        var jsonTokenpar = JSON.parse(idToken);
+        this.cart.username = jsonTokenpar.username;
+        console.log(this.cart.username);
     
-    
+        this.username = jsonTokenpar.username;
         },
 
     }
@@ -399,8 +513,6 @@
     .wrap {
         
         margin-top: 10%;
-        margin-left: 20%;
-        margin-right: 0;
         margin-bottom: 20%;
         height: 800px;
         
@@ -527,12 +639,13 @@
     }
     
     #qnaTable {
-        text-align: center; 
-        margin-left: 60px;
+        text-align: center;
+        margin: auto;
+        width: 85%;
     }
     
     #qnaTable thead {
-        background-color:rgb(224, 224, 224); 
+        background-color:white; 
         border-top: 1px solid black;
     }
     
@@ -675,6 +788,39 @@
         color: white;
     }
     
-    
+    #questionDetail {
+        margin-bottom: 50px;
+        width: 70%;
+        margin: auto;
+    }
+    .qnaContent {
+        min-height: 100px;
+        margin-top: 20px;
+    }
+
+    #questionTitle {
+        border: 0;
+        outline: 0;
+        background-color: white;
+    }
+
+    #answerBtn {
+        margin-top: 20px;
+        height: 50px;
+    }
+    #answerBtn button {
+        font-weight: bold;
+        color: white; 
+        border: none; 
+        float: right; 
+        width: 60px; 
+        height: 30px; 
+        padding: 0; 
+        margin-right: 10px;
+        background-color: rgb(22, 160, 133); 
+        border-radius: 3px; 
+        font-size: 10px; 
+        text-align: center;
+    }
     
 </style>

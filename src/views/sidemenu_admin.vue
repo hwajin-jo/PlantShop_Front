@@ -23,7 +23,7 @@
         {link: '/3', title: "회원관리"},
         {link: '/admin/notice', title: "공지사항관리"},
         {link: '/4', title: "배너관리"},
-        {link: '/5', title: "문의사항관리"},
+        {link: '/admin/question', title: "문의사항관리"},
         {link: '/6', title: "매출관리"},
       ]
      }

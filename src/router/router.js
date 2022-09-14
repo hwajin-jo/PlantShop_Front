@@ -3,34 +3,51 @@ import Router from 'vue-router';
 import HomeView from '../views/HomeView.vue';
 import LoginView from '../views/LoginView.vue';
 import RegisterView from '../views/RegisterView.vue';
+
 import noticeCustomer from '../views/notice_customer.vue';
+
 import sidemenuAdmin from '../views/sidemenu_admin.vue';
 import sidemenuCustomer from '../views/sidemenu_customer.vue';
+
 import AddProduct from '../views/AddProduct.vue';
 import UpdateProduct from '../views/UpdateProduct.vue';
 import ProductList from '../views/ProductList.vue';
 import ProductDetail from '../views/ProductDetail.vue';
 import ProductManage from '../views/ProductManage.vue'
+
 import noticeAddAdmin from '../views/noticeadd_admin.vue';
 import noticeDetailAdmin from '../views/noticedetail_admin.vue';
 import noticeDetailCustomer from '../views/noticedetail_customer.vue';
 import noticeAdmin from '../views/noticemanagement_admin.vue';
 import noticeUpdate from '../views/noticeupdate_admin.vue';
+
 import addAddress from '../views/addaddress_customer.vue';
 import addressList from '../views/addressList_customer.vue';
 import addressUpdate from '../views/changeaddress_customer.vue';
+
 import faqCustomer from '../views/faq_customer.vue';
 import faqdetailCustomer from '../views/faqdetail_customer.vue';
 import faqdetailAdmin from '../views/faqdetail_admin.vue';
 import faqmanagementAdmin from '../views/faqmanagement_admin.vue';
 import faqaddAdmin from '../views/faqadd_admin.vue';
 import faqupdateAdmin from '../views/faqupdate_admin.vue';
+
 import ordersList from '../views/ordlist_customer.vue';
 import ordermanagementAdmin from '../views/ordermanagement_admin.vue';
+
 import about from '../views/about_customer.vue';
+
 import cartList from '../views/cart_customer.vue';
 import orderConfirms from '../views/orderconfirm_customer.vue';
 import orderConfirm from '../views/orderconfirm_customer_one.vue';
+
+import questionListAdmin from '../views/QuestionListAdminView.vue';
+import questionDetailAdmin from '../views/QuestionDetailAdmin.vue';
+import ProductQuestionCustomer from '../views/ProductQuestionCustomer.vue';
+import productQuestionModify from '../views/ProductQuestionModify.vue';
+import AnswerRegister from '../views/AnswerRegister.vue';
+import AnswerModify from '../views/AnswerModify.vue'
+
 import ChatBot from '../views/ChatbotView.vue';
 
 Vue.use(Router);
@@ -216,6 +233,36 @@ export const router = new Router({
       path: '/admin/orders',
       name: 'orders-admin',
       component: ordermanagementAdmin
+    },
+    {
+      path: '/admin/question',
+      name: 'question-list-admin',
+      component: questionListAdmin
+    },
+    {
+      path: '/question/detail/:qid',
+      name: 'question-detail-admin',
+      component: questionDetailAdmin
+    },
+    {
+      path: '/question/register/:pid',
+      name: 'product-question-customer',
+      component: ProductQuestionCustomer
+    },
+    {
+      path: '/question/modify/:qid',
+      name: 'product-question-modify',
+      component: productQuestionModify
+    },
+    {
+      path: '/answer/register/:qid',
+      name: 'answer-register',
+      component: AnswerRegister
+    },
+    {
+      path: '/answer/modify/:qid',
+      name: 'answer-modify',
+      component: AnswerModify
     }
   ]
 });
