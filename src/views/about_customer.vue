@@ -9,6 +9,7 @@
 <table cellpadding="30">
     <tr>
         <td>
+            
             <div id="imgs">
                <img :src="require(`../assets/img/${about1}.png`)" alt="이미지1" style="width: 400px; margin-left: 500px;">
             </div> 
