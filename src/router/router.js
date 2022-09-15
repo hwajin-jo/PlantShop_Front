@@ -50,6 +50,11 @@ import AnswerModify from '../views/AnswerModify.vue'
 
 import ChatBot from '../views/ChatbotView.vue';
 
+import addReview from '../views/addReview.vue';
+import modifyReview from '../views/modifyReview.vue';
+import reviewAdmin from '../views/reviewListAdmin.vue';
+import reviewDetailAdmin from '../views/reviewDetailAdmin.vue';
+
 Vue.use(Router);
 export const router = new Router({
   mode: 'history',
@@ -240,7 +245,7 @@ export const router = new Router({
       component: questionListAdmin
     },
     {
-      path: '/question/detail/:qid',
+      path: '/admin/question/detail/:qid',
       name: 'question-detail-admin',
       component: questionDetailAdmin
     },
@@ -263,6 +268,26 @@ export const router = new Router({
       path: '/answer/modify/:qid',
       name: 'answer-modify',
       component: AnswerModify
-    }
+    },
+    {
+      path: '/review/add/:pid',
+      name: 'add-review',
+      component: addReview
+    },
+    {
+      path: '/review/modify/:rid',
+      name: 'review-modify',
+      component: modifyReview
+    },
+    {
+      path: '/admin/review',
+      name: 'review-admin',
+      component: reviewAdmin
+    },
+    {
+      path: '/admin/review/detail/:rid',
+      name: 'review-detail-admin',
+      component: reviewDetailAdmin
+    },
   ]
 });
