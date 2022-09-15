@@ -60,29 +60,64 @@
                                     <div id="tab2" class="cont">
                                         <!-- Review 화면 구성 시작-->
                                         <div id="reviewContent">
-                                            <h3>Review</h3> <hr><div>  <button type="button" id="writeReviewBtn" @click="addreview_customer()" >리뷰쓰기</button>
+                                            <h3>Review</h3> <hr><div>  <button type="button" id="writeReviewBtn" @click="addReview" >리뷰쓰기</button>
+                                                </div>
+                                                <div v-if="replyClicked == true" id="reviewDetail">
+                                                    <h4> {{currentReview.rtitle}}</h4>
+                                                    {{currentReview.username}}
+                                                    <p v-if="currentReview.rmodifydate == null">{{currentReview.rdate}}</p>
+                                                    <p v-if="currentReview.rmodifydate != null">{{currentReview.rmodifydate}}(수정)</p>
+                                                    <p class="reviewContent"> {{ currentReview.rcontent}}</p>
+                                                    <div style="margin-bottom: 20px;" id="reviewBtn">
+                                                        <button @click="deleteReview" style="background-color: rgb(22,160,133); color: white; font-weight: bold; border:none; border-radius: 5px;">삭제</button>
+                                                        <router-link :to="`/review/modify/${currentReview.rid}`" tag="button" style="background-color: rgb(22,160,133); color: white; font-weight: bold; border:none; border-radius: 5px;">수정</router-link>
+                                                        
+                                                    </div>
+
+                                                    <div id="answerDiv" v-for ="(reviewReply, index) in reviewReplyList" :key="index">
+                                                    <hr>
+                                                    <h4>댓글</h4>
+                                                    {{ reviewReply.rrdate }}
+                                                    <p class="qnaContent"> {{ reviewReply.rrcontent }} </p>
+                                                    <p id="answerBtn">
+                                                        <button v-if="role == 'ROLE_ADMIN'" @click="deleteReply(reviewReply.rrid)">삭제</button>
+                                                    </p>
+                                                    </div>
+
+                                                    <div id="reviewReply" v-if="role == 'ROLE_ADMIN'">
+                                                        <textarea col="200" row="5" v-model="reviewReply.rrcontent" style="width: 850px;" placeholder="댓글을 입력하세요"></textarea><br>
+                                                        <button type="button" @click="createReply" style="background-color: rgb(22,160,133); color: white; font-weight: bold; border:none; border-radius: 5px;">댓글 작성</button>
+                                                    </div>
                                                 </div>
                                                 <br><br>
-                                                <table id="reviewTable">
+                                                <p v-if="reviewList.length == 0">
+                                                작성된 리뷰가 없습니다.
+                                                </p>
+                                                <table id="reviewTable" v-if="reviewList.length > 0">
                                                     <thead>
-                                                        <th style="width: 80px;"> 번호 </th>
-                                                        <th style="width: 800px;"> 제목 </th>
-                                                        <th style="width: 200px;"> 작성자 </th>
+                                                        <th style="width: 10%;"> 번호 </th>
+                                                        <th style="width: 50%;"> 제목 </th>
+                                                        <th style="width: 20%;"> 작성자 </th>
+                                                        <th style="width: 20%;"> 등록/수정일 </th>
                                                     </thead>
                                                     <tbody>
-                                                        <tr>
-                                                            <td> 1</td>
-                                                            <td> <a href="#">예뻐요</a> </td>
-                                                            <td> ***2015</td>
+                                                        <tr v-for="(review, index) in reviewList" :key="index">
+                                                            <td>{{index+1}}</td>
+                                                            <td><button id="reviewTitle" @click="getReview(review.rid)">{{review.rtitle}}</button></td>
+                                                            <td>{{review.username}}</td>
+                                                            <td v-if="review.rmodifydate == null">{{review.rdate}}</td>
+                                                            <td v-if="review.rmodifydate != null">{{review.rmodifydate}} (수정)</td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
-                                                <p id="paging">
+
+                                               
+                                                <!-- <p id="paging">
                                                     <button style="color:white; background-color:rgb(22, 160, 133)">1</button>
                                                     <button>2</button>
                                                     <button >3</button>
                                                     <button>4</button>
-                                                </p>
+                                                </p> -->
                                                 <!-- 페이징 부트스트랩 코드 -->
                                                 <!-- <nav style="z-index: -1;">
                                                     <ul class="pagination pagination-sm d-flex justify-content-center">
@@ -141,7 +176,7 @@
                                                 </thead>
                                                 <tbody>
                                                     <tr v-for="(question, index) in questions" :key="index">
-                                                        <td> {{ question.qid }} </td>
+                                                        <td> {{ index+1 }} </td>
                                                         <td>
                                                             <button id="questionTitle" @click="getQuestion(question.qid)">{{ question.qtitle }}</button>
                                                             <span class="badge badge-primary mgb-15" v-if="question.isanswered == '답변완료'">답변완료</span>
@@ -193,6 +228,8 @@
     import cartService from '../services/cart.service';
     import QuestionDataService from '../services/QuestionDataService';
     import AnswerDataService from '../services/AnswerDataService';
+    import reviewservice from '../services/reviewservice';
+    import reviewreplyservice from '../services/reviewreply.service';
 
     export default {
       name: 'ProductDetail',
@@ -202,6 +239,7 @@
             files: [],
             currentFile: null,
             questions: [],
+            reviewList: [],
             currentQuestion: null,
             questionShow: false,
             currentAnswer: null,
@@ -225,13 +263,21 @@
                     pimg1: "",
                 },
                 username: "",
-                pquantity:0,
+                pquantity:1,
             },
             currentIndex: -1,
             count: 1,
             pquantity: 0,
             username: "",
-            reviewList: [],
+            currentReview: null,
+            reviewReplyList: [],
+            replyClicked: false,
+            reviewReply: {
+                rrid: null,
+                rrcontent: "",
+            },
+            role:"",
+            clicked2: false,
         }
       },
       computed : {
@@ -397,11 +443,104 @@
                     console.log(e);
                 });
             }
+        },
+        deleteReview(){
+                var confirm = window.confirm("정말 삭제하시겠습니까?");
+                if(confirm){
+                reviewservice.delbyId(this.currentReview.rid)
+                .then(response => {
+                    console.log(response.data);
+                    alert("리뷰가 식제되었습니다.");
+                    this.$router.go(0);
+                   
+                }).catch(e => {
+                    console.log(e);
+                }) } else {
+                    console.log("삭제취소");
+                }
+
+            },
+       
+        createReply(){
+                var idToken = window.localStorage.getItem("user");
+                var idTokenJson = JSON.parse(idToken);
+                this.reviewReply.username = idTokenJson.username;
+                console.log(this.currentReview);
+                console.log(this.reviewReply.rrcontent);
+                console.log(idTokenJson.username);
+                var reviewReplyData = {
+                    review: this.currentReview,
+                    username: this.reviewReply.username,
+                    rrcontent: this.reviewReply.rrcontent,
+                }
+                reviewreplyservice.create(reviewReplyData)
+                .then(response => {
+                    console.log(response.data);
+                    this.reviewReply = response.data;
+                    this.$router.go(0);
+                    alert("댓글이 작성되었습니다.")
+                })
+            },
+            
+        getReview(rid){
+            reviewservice.getbyId(rid)
+            .then(response => {
+                console.log(response.data);
+                this.currentReview = response.data;
+                this.replyClicked = true;
+                
+            }).catch(e => {
+                console.log(e);
+            });
+            this.getReply(rid);
+            
+        },
+
+        getReply(rid){
+                reviewreplyservice.getAll(rid)
+                .then(response => {
+                    console.log(response.data);
+                    this.reviewReplyList = response.data;
+                }).catch(e => {
+                    console.log(e);
+                })
+            },
+        
+        getReviewList(pid){
+            pid = this.$route.params.pid;
+            console.log(pid);
+            reviewservice.getAll(pid)
+            .then(response => {
+                this.reviewList = response.data;
+                console.log(response.data);
+            }).catch(e => {
+                console.log(e);
+            })
+        },
+        
+        addReview(){
+            this.$router.push("/review/add/" + this.currentProduct.pid)
+        },
+        deleteReply(rrid){
+            var confirm = window.confirm("정말 댓글을 삭제하시겠습니까?");
+            if(confirm){
+            reviewreplyservice.delete(rrid)
+            .then(response => {
+                console.log(response.data);
+                alert("댓글을 삭제하였습니다.");
+                this.$router.go(0);
+            }).catch(e => {
+                console.log(e);
+            })} else {
+                console.log("삭제 취소");
+                
+            }
         }
       },
       mounted() {
         this.getProduct(this.$route.params.pid);
         this.retrieveQuestions();
+        this.getReviewList();
 
         // 탭 누르면 해당 화면으로 전환하는 JS 코드
         const tabList = document.querySelectorAll('.tab_menu .list li');
@@ -419,7 +558,7 @@
         var jsonTokenpar = JSON.parse(idToken);
         this.cart.username = jsonTokenpar.username;
         console.log(this.cart.username);
-    
+        this.role = jsonTokenpar.roles;
         this.username = jsonTokenpar.username;
         },
 
@@ -809,6 +948,48 @@
         height: 50px;
     }
     #answerBtn button {
+        font-weight: bold;
+        color: white; 
+        border: none; 
+        float: right; 
+        width: 60px; 
+        height: 30px; 
+        padding: 0; 
+        margin-right: 10px;
+        background-color: rgb(22, 160, 133); 
+        border-radius: 3px; 
+        font-size: 10px; 
+        text-align: center;
+    }
+
+    #reviewTable {
+        text-align: center;
+        margin: auto;
+        width: 85%;
+    }
+    
+    #reviewTable thead {
+        background-color:white; 
+        border-top: 1px solid black;
+    }
+    
+    #reviewTable tbody {
+        background-color: white; 
+        border-top: 1px solid black; 
+        border-bottom: 1px solid black;
+    }
+
+    #reviewTitle {
+        border: 0;
+        outline: 0;
+        background-color: white;
+    }
+
+    #reviewBtn {
+        margin-top: 20px;
+        height: 50px;
+    }
+    #reviewBtn button {
         font-weight: bold;
         color: white; 
         border: none; 

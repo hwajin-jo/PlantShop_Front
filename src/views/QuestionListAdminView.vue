@@ -1,6 +1,7 @@
 <template>
+<div><side-menu></side-menu>
     <div id="root" class="root">
-        <side-menu></side-menu>
+        
 
         <label class="title">
             <h3>QnA</h3>
@@ -20,11 +21,11 @@
                 </thead>
                 <tbody>
                     <tr v-for="(question, index) in questions" :key="index">
-                        <td>{{ question.qid }}</td>
+                        <td>{{ index+1 }}</td>
                         <td>{{ question.qtype }}</td>
                         <td>
                             <span>
-                                <router-link :to="`/question/detail/${question.qid}`"> {{question.qtitle}} </router-link>
+                                <router-link :to="`/admin/question/detail/${question.qid}`"> {{question.qtitle}} </router-link>
                             </span>
                         </td>
                         <td>{{ question.mid }}</td>
@@ -43,6 +44,7 @@
             <button>4</button>
         </p>
     </div>
+</div>
 </template>
 
 <script>

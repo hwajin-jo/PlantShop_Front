@@ -1,7 +1,7 @@
 <template>
 
 <div>
-        <div id="side_list">
+        <div class="sidebar">
             <ul>
                 <router-link v-for="list in lists" :key="list.key" :to="list.link" tag="li" class-active="active"
                 >{{list.title}}</router-link>
@@ -16,7 +16,7 @@
      data () {
      return{
     
-      lists: [
+        lists: [
         {link : '/admin/addProduct', title: "상품등록"},
         {link: '/admin/ProductManage', title: "상품관리"},
         {link: '/admin/orders', title: "주문관리"},
@@ -24,6 +24,7 @@
         {link: '/admin/notice', title: "공지사항관리"},
         {link: '/4', title: "배너관리"},
         {link: '/admin/question', title: "문의사항관리"},
+        {link: '/admin/review', title: "리뷰관리"},
         {link: '/6', title: "매출관리"},
       ]
      }
@@ -35,10 +36,10 @@
     }
     </script>
     <style scoped>
-    #side_list{
-        margin-top: 50px;   
+    .sidebar{
+          margin-top: 50px;
     }
-    #side_list ul {
+    .sidebar ul {
     
     list-style : none;
     background-color: rgb(22, 160, 133);
@@ -46,12 +47,12 @@
     padding: 0;
     margin: 0;
     position: fixed;
-    height: 300px;
+    height: 340px;
     overflow: auto;
 
 }
 
-#side_list ul li {
+.sidebar ul li {
     text-decoration: none;
     display: block;
     color: white;
