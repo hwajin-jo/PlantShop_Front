@@ -49,6 +49,7 @@ import AnswerRegister from '../views/AnswerRegister.vue';
 import AnswerModify from '../views/AnswerModify.vue'
 
 import ChatBot from '../views/ChatbotView.vue';
+import UpdateoStatus from '../views/UpdateOstatus_admin.vue';
 
 import addReview from '../views/addReview.vue';
 import modifyReview from '../views/modifyReview.vue';
@@ -289,5 +290,11 @@ export const router = new Router({
       name: 'review-detail-admin',
       component: reviewDetailAdmin
     },
+    {
+      path: '/admin/updateoStatus/:oid',
+      name: 'updateoStatus',
+      component: UpdateoStatus
+    }
+
   ]
 });

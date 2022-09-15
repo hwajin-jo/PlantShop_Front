@@ -173,6 +173,7 @@
                     this.products.pid = response.data.pid;
                     this.submitted = true;
                     alert("구매가 완료되었습니다.");
+                    this.$router.push({name: 'orders-list'});
                 }).catch(e=>console.log(e));
 
                 },

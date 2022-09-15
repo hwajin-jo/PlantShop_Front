@@ -7,7 +7,7 @@
                 <tbody>
                     <tr>
                         <th><span>{{index+1}}.&nbsp;[주문번호]&nbsp;{{order.oid}}&nbsp;[주문일]&nbsp;{{order.odate}}</span></th>
-                        <th><span>주문상태</span></th>
+                        <th ><span style="margin-left:190px">주문상태</span></th>
                     </tr>
                     <tr>
                         <td id="ord-detail">
@@ -16,17 +16,18 @@
                                 <img :src="order.pimg1">
                                 <p>
                                     [상품명]&nbsp;{{order.pname}}<br>
-                                    [제품가격]&nbsp;{{order.pprice}}원<br>
+                                    [제품가격]&nbsp;{{order.pprice.replaceAll(',','원,')}}원<br>
                                     [주문수량]&nbsp;{{order.ocount}}<br>
                                     [총 결제금액]&nbsp;{{order.ototal}}원<br>
                                 </p> 
                         </td>
                         <td id="del-detail">
                             <p>
-                                <button style="color:white; background-color: rgb(22, 160, 133);">결제완료</button>
-                                <button>배송중</button>
-                                <button>배송완료</button>
-                                <button>구매확정</button>
+                                <!-- {{order.ostatus}} -->
+                                <button id="btn2" style="color:white; background-color: rgb(22, 160, 133);">{{order.ostatus}}</button>
+                                <!-- <button id="btn2">배송중</button>
+                                <button id="btn2">배송완료</button>
+                                <button id="btn2">구매확정</button> -->
                             </p>
                         </td>
                     </tr>
@@ -65,6 +66,7 @@ export default {
             },
             currentIndex: -1,
             userid: null,
+            i:""
         }
     },
     components: {
@@ -79,20 +81,17 @@ export default {
         .then(response => {
             this.orders = response.data
             console.log(response.data);
+            // var i = this.orders[0].pid;
+            // console.log(i)
+            
         }).catch(()=>{}); 
-        
-       },
-    //    img(){
-    //     if(this.orders.pname === "동백나무"){
-    //             this.imgName = "logo"
-    //         }else{
-    //             this.imgName = "dong"
-    //         }
-    //    }
+        },
+        // orderstatus(){
+        //     console.log(this.orders[0].pid);
+        // }
     },
     mounted(){
         this.orderList();
-        //this.img();
     }
 }
 
@@ -100,7 +99,7 @@ export default {
 
 <style scoped>
 #ordlist-main {
-    width: 900px;
+    width: 800px;
     margin: auto;
     margin-bottom: 300px;
     margin-left: 550px;

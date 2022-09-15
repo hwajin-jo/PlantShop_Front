@@ -10,6 +10,12 @@ class OrdersService {
   getAll_admin(){
     return http.get(`/orders/list`);
   }
+  update(oid) {
+    return http.get(`/order/modify/${oid}`);
+  }   
+  updateostatus(oid, order){
+    return http.put(`/order/modify/${oid}`, order);
+  }
  
 }
 export default new OrdersService();

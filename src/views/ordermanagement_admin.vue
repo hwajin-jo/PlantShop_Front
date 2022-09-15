@@ -13,7 +13,7 @@
                     <th scope="col">결제금액</th>
                     <th scope="col">구매자</th>
                     <th scope="col">주문상태</th>
-                    <th scope="col"><button @click="changeostatus">상태변경</button></th>
+                    <th scope="col">주문상태변경</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -25,16 +25,19 @@
                     <td>{{order.ocount}}</td>
                     <td>{{order.ototal}}원</td>
                     <td>{{order.username}}</td>
-                    <td>{{ostatus}}</td>
+                    <td>{{order.ostatus}}</td>
                     <td>       
                         <!-- <select v-model="ostatus">
                             <option :value="ostatus" v-for="(ostatus, index) in list" :key="index" >{{ostatus}}</option> -->
-                        <select id="deliveryState" v-model="selectedStatus">
-                        <option value="pay">결제완료</option>
-                        <option value="in_delivery">배송중</option>
-                        <option value="done_delivery">배송완료</option>
-                        <option value="done_buy">구매확정</option>
-                        </select>
+                        <!-- <select id="select" @change="changeValue()"> -->
+                        <!-- <select id="select" v-model="order.ostatus"> -->
+                        <!-- <select id="select"> -->
+                        <!-- <option value="결제완료">결제완료</option>
+                        <option value="배송중">배송중</option>
+                        <option value="배송완료">배송완료</option>
+                        <option value="구매확정">구매확정</option>
+                        </select> -->
+                        <router-link :to="`/admin/updateoStatus/${order.oid}`" tag="button" class="btn1">변경</router-link>
                     </td>
                   </tr>
                 </tbody>
@@ -64,19 +67,21 @@ export default {
                 pprice:"",
                 pstock:"",
                 pimg1:"",
-                ototal:""
+                ototal:"",
+                ostatus:""
             },
             currentIndex:-1,
-            ostatus:"결제완료",
-            list:[
-                '결제완료',
-                '배송중',
-                '배송완료',
-                '구매확정'
-                ],
-            selectedStatus:{
-                ostatus:""
-            }
+            
+            // ostatus:"결제완료",
+            // list:[
+            //     '결제완료',
+            //     '배송중',
+            //     '배송완료',
+            //     '구매확정'
+            //     ],
+            // selecte:{
+            //     ostatus:""
+            // }
         }
     },
     components:{
@@ -92,12 +97,30 @@ export default {
                 console.log(e);
             })
         },
-        changeostatus(){
-            console.log(this.ostatus);
-        }
+        // changeostatus(){
+        //     var newOrder = {
+        //         ocount: this.currentOrder.ocount,
+        //         pname: this.currentOrder.pname,
+        //         pprice:this.currentOrder.pprice,
+        //         pimg1:this.currentOrder.pimg1,
+        //         ototal:this.currentOrder.ototal,
+        //         ostatus:this.currentOrder.ostatus,
+        //         pid:this.currentOrder.pid
+        //     }
+        //     OrdersDataService.updateostatus(this.currentOrder.oid, newOrder)
+        //     .then(response => {
+        //         console(response.data);
+        //     })
+        // },
+        // changeValue(){
+        //     var value_str = document.getElementById('select');
+        //     console.log(value_str.value);
+        //     //this.order.ostatus = value_str.value;
+        // }
     },
     mounted(){
         this.ordersList();
+        
     }
 }
 </script>
@@ -165,6 +188,17 @@ input {
 .image1{
     width: 60px;
     height: 60px;
+}
+
+.btn1{
+    width: auto;
+    height: auto;
+    font-size: 15px;
+    background-color: rgb(224, 224, 224);
+    color: black;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
 }
 
 #order-manager tr td {

@@ -14,8 +14,7 @@
             <tbody v-for="(cart, index) in cartList" :key="index">
                 <tr >
                     <td style="border: 1px solid black;">{{index+1}}</td>
-                    <td style="border: 1px solid black;">
-                        <img
+                    <td style="border: 1px solid black;"><img
               :src="cart.product.pimg1"
               style="width: 140px; height: 140px; float: left"
           /></td>
@@ -122,6 +121,9 @@
                 total: 0,
                 totalQty: 0,
                 totalpname: "",
+                imgurl:"",
+                totalpid:"",
+                totalpprice:""
                 
             }
         },
@@ -155,13 +157,15 @@
                     var total = 0;
                     var totalQty = 0;
                     var totalpname = "";
-                    
+                    var pid = "";
+                    var pprice = "";
+
                     for (let i = 0; i < response.data.length; i++){
                     total = total + (response.data[i].pquantity * response.data[i].product.pprice);
                     console.log(response.data[i].pquantity); 
                     console.log(response.data[i].product.pprice);
                     }
-                    console.log(total);
+                    this.imgurl = response.data[0].product.pimg1;
                     this.total = total;
                     for (let i = 0; i < response.data.length; i++){
                     totalQty = totalQty + response.data[i].pquantity;
@@ -174,6 +178,23 @@
                     }
                     totalpname = totalpname.replace(',', '');
                     this.totalpname = totalpname;
+
+                    for (let i = 0; i < response.data.length; i++){
+                    pid = pid + ","+ response.data[i].product.pid;
+                    console.log(pid); 
+                    }
+                    // console.log(pid.substr(1));
+                    this.totalpid = pid.substr(1);
+
+                    for (let i = 0; i < response.data.length; i++){
+                    pprice = pprice + ","+ response.data[i].product.pprice;
+                    console.log(pprice); 
+                    }
+                    var pprice1 = pprice.substr(1);
+                    //var pprice2 = pprice1.toFixed(10);
+                    console.log(pprice1);
+                    this.totalpprice = pprice.substr(1);
+                    
                 })
                 .catch((e) => {
                     console.log(e);
@@ -186,9 +207,9 @@
                     var orderData = { 
                         pid: this.totalpid,
                         pname: this.totalpname,
-                        pprice: this.currentCart.product.pprice,
+                        pprice: this.totalpprice,
                         ocount: this.total,
-                        pimg1:this.currentCart.product.pimg1,
+                        pimg1:this.imgurl,
                         ototal:this.totalQty,
                         username: this.username          
                     }
@@ -199,6 +220,7 @@
                     this.products.pid = response.data.pid;
                     this.submitted = true;
                     alert("구매가 완료되었습니다.");
+                    this.$router.push({name: 'orders-list'});
                 }).catch(e=>console.log(e));
 
                 },
