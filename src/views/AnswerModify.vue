@@ -83,7 +83,7 @@ export default {
 
                 alert("답변이 수정되었습니다.");
 
-                this.$router.push({ name: 'product-detail', params: {pid: this.currentQuestion.pid} });
+                this.$router.go(-1);
             })
             .catch(e => {
                 console.log(e);

@@ -1,7 +1,8 @@
 <template>
-    <div><side-menu></side-menu>
+<div>
+    <side-menu></side-menu>
     <div id="root" class="root">
-        
+        <side-menu></side-menu>
 
         <label class="title">
             <h3>QnA</h3>
@@ -14,8 +15,8 @@
             {{ currentQuestion.qdate }}
             <p class="qnaContent"> {{ currentQuestion.qcontent }} </p>
             <p id="answerBtn">
-                <button v-if="username == currentQuestion.mid">수정</button>
-                <button v-if="username == 'admin'" @click="registerAnswer(currentQuestion.qid)">답변 등록</button>
+                <button v-if="currentQuestion.isanswered == '답변필요'" @click="registerAnswer(currentQuestion.qid)">답변 등록</button>
+                <button v-if="currentQuestion.isanswered == '답변필요'" @click="deleteQuestion(currentQuestion.qid)">삭제</button>
             </p>
 
             <!-- 답변 내용 -->
@@ -25,7 +26,8 @@
                 {{ currentAnswer.adate }}
                 <p class="qnaContent"> {{ currentAnswer.acontent }} </p>
                 <p id="answerBtn">
-                    <button v-if="username == currentQuestion.mid">수정</button>
+                    <button @click="deleteAnswer(currentAnswer.aid)">삭제</button>
+                    <button @click="modifyAnswer(currentQuestion.qid)">수정</button>
                 </p>
             </div>
         </div>
@@ -71,6 +73,35 @@ export default {
         registerAnswer(id) {    // 답변 등록
             this.$router.push({ name: 'answer-register', params: {qid: id} })
         },
+        deleteQuestion(qid) {
+            var confirm = window.confirm("정말 삭제하시겠습니까?")
+            if(confirm){
+                QuestionDataService.delete(qid)
+                .then(response => {
+                    console.log(response.data);
+                    this.$router.push({ name: 'question-list-admin' });
+                })
+                .catch(e => {
+                    console.log(e);
+                });
+            }
+        },
+        modifyAnswer(id) {
+            this.$router.push({ name: 'answer-modify', params: {qid: id} })
+        },
+        deleteAnswer(aid) {
+            var confirm = window.confirm("정말 삭제하시겠습니까?")
+            if(confirm){
+                AnswerDataService.delete(aid)
+                .then(response => {
+                    console.log(response.data);
+                    this.$router.go();
+                })
+                .catch(e => {
+                    console.log(e);
+                });
+            }
+        }
     },
     components: {
         'side-menu': sidemenuCustomer

@@ -109,6 +109,20 @@ export default {
                 qtitle: this.question.qtitle,
                 qcontent: this.question.qcontent
             };
+
+            if (this.question.qtype == '') {
+                alert("카테고리를 선택하세요.");
+                return;
+            }
+            else if (this.question.qtitle == '') {
+                alert("제목을 입력하세요.");
+                return;
+            }
+            else if (this.question.qcontent == '') {
+                alert("내용을 입력하세요.");
+                return;
+            }
+
             QuestionDataService.register(data, this.$route.params.pid)
             .then(response => {
                 this.question.qid = response.data.qid;

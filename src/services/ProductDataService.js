@@ -9,6 +9,9 @@ class ProductDataService {
     getAllAdmin() {
         return http.get(`/product/all`)
     }
+    searchProduct(ptype, pname) {
+        return http.get(`product/${ptype}/${pname}`);
+    }
     // getAllFile() {
     //     return http.get("/product/files");
     // }
@@ -28,7 +31,6 @@ class ProductDataService {
     update(pid) {
         return http.get(`/product/modify/${pid}`);
     }
-
     updateProduct(pid, product) {
         return http.put(`/product/modify/${pid}`, product );
     }

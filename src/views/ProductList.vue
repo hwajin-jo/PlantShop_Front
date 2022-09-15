@@ -1,5 +1,9 @@
 <template>
     <div class="products">
+        <p class="search-product">
+            <input v-model="searchName">
+            <button @click="searchProduct">검색</button>
+        </p>
         <div class="product_list">
             <li class="product" v-for="(product, index) in products" :key="index">
                 <img :src="product.pimg1">
@@ -37,12 +41,15 @@ export default {
         return {
             products: [],
             currentProduct: null,
-            currentIndex: -1,
-            pname: ''
+            searchProducts: [],
+            searchName: '',
+            ptype: ''
         };
     },
     methods: {
         retrieveProducts() {
+            this.ptype = this.$route.params.ptype;
+
             // 상품 목록
             ProductDataService.getAll(this.$route.params.ptype)
             .then(response => {
@@ -53,14 +60,15 @@ export default {
                 console.log(e);
             });
         },
-        refreshList() {
-            this.retrieveProducts();
-            this.currentProduct = null;
-            this.currentIndex = -1;
-        },
-        setActiveProduct(product, index) {
-            this.currentProduct = product;
-            this.currentIndex = index;
+        searchProduct() {
+            ProductDataService.searchProduct(this.ptype, this.searchName)
+            .then(response => {
+                this.products = response.data;
+                console.log(response.data);
+            })
+            .catch(e => {
+                console.log(e);
+            });
         }
     },
     mounted() {

@@ -53,7 +53,7 @@ footer {
     width: 10%;
 }
 .Qna_table thead th:nth-child(3) {
-    width: 40%;
+    width: 50%;
 }
 .Qna_table thead th:nth-child(4) {
     width: 15%;
@@ -61,9 +61,7 @@ footer {
 .Qna_table thead th:nth-child(5) {
     width: 15%;
 }
-.Qna_table thead th:nth-child(6) {
-    width: 10%;
-}
+
 .Qna_table tbody {
     background-color: white;
     border-top: 2px solid rgb(224, 224, 224);

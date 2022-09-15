@@ -1,5 +1,6 @@
 <template>
-<div><side-menu></side-menu>
+<div>
+    <side-menu></side-menu>
     <div id="root" class="root">
         
 
@@ -17,7 +18,6 @@
                     <th>제목</th>
                     <th>작성자</th>
                     <th>작성일</th>
-                    <th>답변여부</th>
                 </thead>
                 <tbody>
                     <tr v-for="(question, index) in questions" :key="index">
@@ -26,11 +26,12 @@
                         <td>
                             <span>
                                 <router-link :to="`/admin/question/detail/${question.qid}`"> {{question.qtitle}} </router-link>
+                                <span class="badge badge-danger mgb-15" v-if="question.isanswered == '답변필요'">답변필요</span>
+                                <span class="badge badge-primary mgb-15" v-if="question.isanswered == '답변완료'">답변완료</span>
                             </span>
                         </td>
                         <td>{{ question.mid }}</td>
                         <td>{{ question.qdate }}</td>
-                        <td><span class="badge badge-danger mgb-15">{{ question.isanswered }}</span></td>
                     </tr>
                 </tbody>
             </table>
