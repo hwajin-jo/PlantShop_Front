@@ -18,7 +18,7 @@
      return{
     
       lists: [
-        {link: '/1', title: "회원 정보"},
+        {link: "", title: "회원 정보"},
         {link: '/user/orders', title: "주문 관리"},
         {link: '/user/address', title: "배송지 관리"},
       ]
@@ -27,7 +27,14 @@
     
     methods:{
      
-     }
+     },
+    mounted() {
+        var token = window.localStorage.getItem("user");
+        var tokenJson = JSON.parse(token);
+        this.username = tokenJson.username;
+        this.lists[0].link = `/user/detail/${this.username}`;
+        console.log(this.username);  
+        }
     }
     </script>
     <style scoped>
