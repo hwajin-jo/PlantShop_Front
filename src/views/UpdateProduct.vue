@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- <side-menu></side-menu> -->
-        <div id="product-add">
+        <div id="product-update">
             <h3><strong>상품 수정</strong></h3>
             <hr>
             <form>
@@ -28,13 +28,14 @@
                     <img :src="currentProduct.pimg1" class="">
                 </p>
                 <p>
-                    <textarea class="form-control" rows="10" v-model="currentProduct.pdetail" id="pdetail" placeholder="상세정보 입력"></textarea>
+                    <textarea class="form-control" rows="10"  v-model="currentProduct.pdetail" id="pdetail" placeholder="상세정보 입력"></textarea>
                 </p>
                 <button type="button" class="btn" @click="updateProduct">수정</button>
             </form>
         </div>
   </div>
 </template>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.4.0/marked.min.js"></script>
 
 <script>
 // import sidemenuCustomer from '../views/sidemenu_admin.vue';
@@ -95,20 +96,20 @@ export default {
 </script>
 
 <style>
-#product-add {
+#product-update {
     width: 900px;
     margin: auto;
     margin-bottom: 300px;
     padding-top: 70px;
 }
 
-#product-add hr {   /* 구분선 */
+#product-update hr {   /* 구분선 */
     background-color: black;
     border: none;
     height: 2px;
 }
 
-#product-add form { /* 전체 작성칸 설정 */
+#product-update form { /* 전체 작성칸 설정 */
     text-align: center;
     margin: auto;
     width: 80%;
@@ -128,7 +129,7 @@ export default {
     margin-left: -420px;
 }
 
-#product-add button {   /* 등록 버튼 */
+#product-update button {   /* 등록 버튼 */
     margin-left: 0px;
     background-color: rgb(22, 160, 133);
     color: white;
