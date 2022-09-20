@@ -149,14 +149,45 @@
                                         <!-- Review 화면 구성 끝-->                      
                                     </div>
                                 </li>
-                                <!-- Q&A 버튼 화면 전환-->
+                               <!-- Q&A 버튼 화면 전환-->
                                 <li>
-                                    <button type="button" class="btn">Q&A</button>
+                                    <button type="button" class="btn">FAQ/Q&A</button>
                                     <div id="tab3" class="cont">
                                         <!-- Q&A 화면 구성 시작 -->
+
                                         <div id="qnaContent">
-                                            <h3>Q&A</h3> <hr>
-                                            <button type="button" id="createqnaBtn" @click="addqna_customer()">문의하기</button><br><br>
+                                            <h3>FAQ/Q&A</h3> <hr>
+                                            <button type="button" id="createqnaBtn" @click="addqna_customer()">문의하기</button>
+
+                                            <!--faq상세 내용-->
+                                            <div v-if="faqShow" id="questionDetail">
+                                                <h4>{{ currentFaq.ftitle }}</h4>                                              
+                                                <p class="qnaContent"><pre>{{ currentFaq.fcontent }}</pre></p>                                           
+                                            </div>
+                                            <!-- FAQ 목록 -->
+                                            <div class="submit-form">
+                                                <section>
+                                                    <div id="faq-main">
+                                                        <table class="text-center">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>번호</th>
+                                                                    <th>자주 묻는 질문</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody >
+                                                                <tr v-for="(faq, index) in faqs" :key="index">
+                                                                    <td> {{index+1}}</td>
+                                                                    <td>
+                                                                        <!-- <router-link :to="`/faq/detail/${faq.fid}`">{{faq.ftitle}} </router-link> -->
+                                                                        <button id="questionTitle" @click="getFaq(faq.fid)">{{ faq.ftitle }}</button>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </section>
+                                            </div>                                       
                                             <!-- 문의글 상세 내용 -->
                                             <div v-if="questionShow" id="questionDetail">
                                                 <h4>{{ currentQuestion.qtitle }}</h4>
@@ -246,11 +277,14 @@
     import AnswerDataService from '../services/AnswerDataService';
     import reviewservice from '../services/reviewservice';
     import reviewreplyservice from '../services/reviewreply.service';
-
+    import FaqDataService from '../services/FaqDataService';
     export default {
       name: 'ProductDetail',
       data() {
         return {
+            faqs: [],
+            currentFaq: null,
+            faqShow:false,
             products: [],
             files: [],
             currentFile: null,
@@ -551,12 +585,30 @@
                 console.log("삭제 취소");
                 
             }
+        },
+        listFaq(){//faq목록
+            FaqDataService.getAll()
+            .then(response => {
+                this.faqs = response.data;
+                console.log(response.data);
+            }).catch(()=>{}); 
+        },
+        getFaq(fid) {  //faq 상세
+            FaqDataService.get(fid)
+            .then(response => {
+                this.faqShow = true;
+                this.currentFaq = response.data;
+                console.log(response.data);
+            }).catch(e => {
+                console.log(e);
+            });
         }
       },
       mounted() {
         this.getProduct(this.$route.params.pid);
         this.retrieveQuestions();
         this.getReviewList();
+        this.listFaq();
 
         // 탭 누르면 해당 화면으로 전환하는 JS 코드
         const tabList = document.querySelectorAll('.tab_menu .list li');
