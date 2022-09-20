@@ -61,7 +61,7 @@ import userDetail from '../views/userDetail.vue';
 
 Vue.use(Router);
 export const router = new Router({
-  mode: 'history',
+  
   routes: [
     {
       path: '/',
